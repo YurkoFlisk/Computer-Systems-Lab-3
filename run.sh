@@ -5,6 +5,7 @@ std="-std=c++14"
 sources="main.cpp"
 oFlags=(O0 O1 O2 O3 Ox Ofast)
 cpuExts=(sse sse2)
+inputFile="sampleCases.txt"
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
 # reuse its own names (e.g. each produced executable will have the same name given below).
@@ -19,15 +20,15 @@ calcResAndTime() {
 	echo "$lExecRes $lExecTime";
 }
 
-echo "Testing individual -O optimization flags" >> logFile
-echo "Flag Time" >> logFile
+echo "Testing individual -O optimization flags" >> $logFile
+echo "Flag Result Time" >> $logFile
 for flag in ${oFlags[@]}; do
 	icc $std -$flag -o $exeFile $sources
-	echo "$flag $(calcResAndTime)" >> logFile
+	echo "$flag $(calcResAndTime)" >> $logFile
 done
-echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> logFile
-echo "Extension Time" >> logFile
+echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> $logFile
+echo "Extension Result Time" >> $logFile
 for ext in ${cpuExts[@]}; do
 	icc $std -x$ext -o $exeFile $sources
-	echo "$flag $(calcResAndTime)" >> logFile
+	echo "$ext $(calcResAndTime)" >> $logFile
 done
