@@ -12,21 +12,22 @@ exeFile="exe$1"
 tmpFile="tmp$1.txt"
 logFile="log$1.txt"
 rm logFile
-timeCommand="(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print \$2}'"
-resCommand="cat $tmpFile | awk '{print \$1}'"
+
+calcResAndTime() {
+	local lExecTime = `(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
+	local lExecRes = `cat $tmpFile | awk '{print \$1}'`
+	echo "$lExecRes $lExecTime";
+}
+
 echo "Testing individual -O optimization flags" >> logFile
 echo "Flag Time" >> logFile
 for flag in ${oFlags[@]}; do
 	icc $std -$flag -o $exeFile $sources
-	execTime=`$timeCommand`
-	execRes=`$resCommand`
-	echo "$flag $execRes $execTime" >> logFile
+	echo "$flag $(calcResAndTime())" >> logFile
 done
 echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> logFile
 echo "Extension Time" >> logFile
 for ext in ${cpuExts[@]}; do
 	icc $std -x$ext -o $exeFile $sources
-	execTime=`$timeCommand`
-	execRes=`$resCommand`
-	echo "$flag $execRes $execTime" >> logFile
+	echo "$flag $(calcResAndTime())" >> logFile
 done
