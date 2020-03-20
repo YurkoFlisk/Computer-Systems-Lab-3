@@ -12,7 +12,7 @@ inputFile="sampleCases.txt"
 exeFile="exe$1"
 tmpFile="tmp$1.txt"
 logFile="log$1.txt"
-rm logFile
+rm $logFile
 
 calcResAndTime() {
 	local lExecTime=`(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
