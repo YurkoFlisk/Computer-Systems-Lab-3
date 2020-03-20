@@ -23,11 +23,11 @@ echo "Testing individual -O optimization flags" >> logFile
 echo "Flag Time" >> logFile
 for flag in ${oFlags[@]}; do
 	icc $std -$flag -o $exeFile $sources
-	echo "$flag $(calcResAndTime())" >> logFile
+	echo "$flag $(calcResAndTime)" >> logFile
 done
 echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> logFile
 echo "Extension Time" >> logFile
 for ext in ${cpuExts[@]}; do
 	icc $std -x$ext -o $exeFile $sources
-	echo "$flag $(calcResAndTime())" >> logFile
+	echo "$flag $(calcResAndTime)" >> logFile
 done
