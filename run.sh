@@ -14,8 +14,8 @@ logFile="log$1.txt"
 rm logFile
 
 calcResAndTime() {
-	local lExecTime = `(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
-	local lExecRes = `cat $tmpFile | awk '{print \$1}'`
+	local lExecTime=`(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
+	local lExecRes=`cat $tmpFile | awk '{print \$1}'`
 	echo "$lExecRes $lExecTime";
 }
 
