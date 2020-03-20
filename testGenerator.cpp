@@ -20,7 +20,8 @@ int main()
 	else
 		cout << testCases << endl;
 	uniform_int_distribution<> nDist(1, nMaxDigits), mDist(1, 1000000000), charDist(0, 9);
-	mt19937 eng;
+	random_device rnddev;
+	mt19937 eng(rnddev());
 	for (int i = 0; i < testCases; ++i)
 	{
 		nDigits = nDist(eng);
