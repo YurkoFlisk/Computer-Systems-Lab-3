@@ -16,7 +16,7 @@ rm $logFile
 
 calcResAndTime() {
 	local lExecTime=`(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
-	local lExecRes=`cat $tmpFile | awk '{print \$1}'`
+	local lExecRes=`cat $tmpFile | awk '{sum=(sum+$1)%1000}END{print sum}'`
 	echo "$lExecRes $lExecTime";
 }
 
