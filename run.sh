@@ -4,6 +4,7 @@ ml icc
 std="-std=c++14"
 sources="$2"
 inputFile="$3"
+CC="$4"
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
 # reuse its own names (e.g. each produced executable will have the same name given below).
@@ -34,12 +35,12 @@ calcResAndTime() {
 echo "Testing individual -O optimization flags" >> $logFile
 echo "Flag Result Time" >> $logFile
 for flag in ${oFlags[@]}; do
-	icc $std -$flag -o $exeFile $sources
+	$CC $std -$flag -o $exeFile $sources # here can be g++ or icc
 	echo "$flag $(calcResAndTime)" >> $logFile
 done
 echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> $logFile
 echo "Extension Result Time" >> $logFile
 for ext in ${cpuExts[@]}; do
-	icc $std -O1 -x$ext -o $exeFile $sources
+	icc $std -O1 -x$ext -o $exeFile $sources # here only icc
 	echo "$ext $(calcResAndTime)" >> $logFile
 done
