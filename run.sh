@@ -24,7 +24,7 @@ done
 echo "Supported cpu extensions: ${cpuExts[*]}" >> $logFile
 
 calcResAndTime() {
-	local lExecTime=`(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
+	local lExecTime=`(time for i in {1..$2}./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print ($2/10)}'`
 	local lExecRes=`cat $tmpFile | awk '{sum=(sum+$1)%1000}END{print sum}'`
 	echo "$lExecRes $lExecTime";
 }
