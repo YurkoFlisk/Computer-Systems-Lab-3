@@ -27,8 +27,8 @@ echo "Log index: $1"
 echo "Number of repetitions: $2"
 
 calcResAndTime() {
-	local lExecTime=$( ( time for i in {1..$2}; do ./$exeFile < $inputFile > $tmpFile; done ) 2>&1 | grep real | awk '{print $2}' )
-	local lExecRes=`cat $tmpFile | awk '{sum=(sum+$1)%1000}END{print sum}'`
+	local lExecTime=$( time ( for i in {1..$2}; do ./$exeFile < $inputFile > $tmpFile; done ) 2>&1 | grep real | awk '{print $2}' )
+	local lExecRes=$( cat $tmpFile | awk '{sum=(sum+$1)%1000}END{print sum}' )
 	echo "$lExecRes $lExecTime";
 }
 
