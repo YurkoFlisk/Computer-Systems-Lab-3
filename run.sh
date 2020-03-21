@@ -3,7 +3,7 @@
 ml icc
 std="-std=c++14"
 sources="$2"
-inputFile="sampleCases.txt"
+inputFile="$3"
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
 # reuse its own names (e.g. each produced executable will have the same name given below).
