@@ -4,8 +4,16 @@ ml icc
 std="-std=c++14"
 sources="main.cpp"
 inputFile="sampleCases.txt"
-oFlags=(O0 O1 O2 O3 Ox Ofast)
-
+# Since several script instances may ran simultaneously, each one should
+# have different output files. Each script instance, though, can (and will)
+# reuse its own names (e.g. each produced executable will have the same name given below).
+exeFile="exe$1"
+tmpFile="tmp$1.txt"
+logFile="log$1.txt"
+rm $logFile 2> /dev/null # avoid appending to a previous log
+# Compiler flags
+oFlags=(O0 O1 O2 O3 Ofast)
+# Testing available CPU SIMD extensions
 possibleExts=(sse2 sse3 ssse3 sse4.1 sse4.2 avx)
 cpuExts=()
 for possibleExt in ${possibleExts[@]}; do
@@ -14,13 +22,6 @@ for possibleExt in ${possibleExts[@]}; do
 	fi
 done
 echo "Supported cpu extensions: ${cpuExts[*]}" >> $logFile
-# Since several script instances may ran simultaneously, each one should
-# have different output files. Each script instance, though, can (and will)
-# reuse its own names (e.g. each produced executable will have the same name given below).
-exeFile="exe$1"
-tmpFile="tmp$1.txt"
-logFile="log$1.txt"
-rm $logFile 2> /dev/null # avoid appending to a previous log
 
 calcResAndTime() {
 	local lExecTime=`(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
@@ -37,6 +38,6 @@ done
 echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> $logFile
 echo "Extension Result Time" >> $logFile
 for ext in ${cpuExts[@]}; do
-	icc $std -x$ext -o $exeFile $sources
+	icc $std -O1 -x$ext -o $exeFile $sources
 	echo "$ext $(calcResAndTime)" >> $logFile
 done
