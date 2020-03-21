@@ -2,7 +2,7 @@
 
 ml icc
 std="-std=c++14"
-sources="main.cpp"
+sources="$2"
 inputFile="sampleCases.txt"
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
