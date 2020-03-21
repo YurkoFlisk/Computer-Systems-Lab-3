@@ -3,16 +3,24 @@
 ml icc
 std="-std=c++14"
 sources="main.cpp"
-oFlags=(O0 O1 O2 O3 Ox Ofast)
-cpuExts=(sse sse2)
 inputFile="sampleCases.txt"
+oFlags=(O0 O1 O2 O3 Ox Ofast)
+
+possibleExts=(sse2 sse3 ssse3 sse4.1 sse4.2 avx)
+cpuExts=()
+for possibleExt in ${possibleExts[@]}; do
+	if lscpu | grep Flags | grep -qw $possibleExt; then
+		cpuExts+=($possibleExt)
+	fi
+done
+echo "Supported cpu extensions: ${cpuExts[*]}" >> $logFile
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
 # reuse its own names (e.g. each produced executable will have the same name given below).
 exeFile="exe$1"
 tmpFile="tmp$1.txt"
 logFile="log$1.txt"
-rm $logFile
+rm $logFile 2> /dev/null # avoid appending to a previous log
 
 calcResAndTime() {
 	local lExecTime=`(time ./$exeFile < $inputFile > $tmpFile) 2>&1 | grep real | awk '{print $2}'`
