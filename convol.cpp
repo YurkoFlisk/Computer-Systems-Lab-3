@@ -13,29 +13,32 @@ void convolution(float input[], int inputSize, float kernel[], int kernelN, floa
 	{
 		output[i] = 0;
 		for (int k = -kernelN; k <= kernelN; ++k)
-			output[i] += kernel[k + kernelN] * input[max(min(i - k, inputSize - 1), 0)]; // i - k >= 0
+			output[i] += kernel[k + kernelN] * input[max(min(i - k, inputSize - 1), 0)];
 	}
 }
 
-constexpr int KERNEL_N = 200, SEQUENCE_SIZE = 5000000,
-	PADDING = 1000; // To avoid overflow in convolution function
-float input[SEQUENCE_SIZE + PADDING] = {}, kernel[2 * KERNEL_N + 1], output[SEQUENCE_SIZE];
+constexpr int KERNEL_N = 200, MAX_SEQUENCE_SIZE = 5000000;
+	// ,PADDING = 1000; // To avoid overflow in convolution function
+float input[MAX_SEQUENCE_SIZE], kernel[2 * KERNEL_N + 1], output[MAX_SEQUENCE_SIZE];
 
 int main()
 {
-	int seed;
-	cin >> seed;
+	int n, seed;
+	cin >> n >> seed;
+	if (n < 1)
+		n = 1;
+	if (n > MAX_SEQUENCE_SIZE)
+		n = MAX_SEQUENCE_SIZE;
 	uniform_real_distribution<> dist(-500, 500);
 	minstd_rand gen(seed);
 	for (int i = -KERNEL_N; i <= KERNEL_N; ++i)
 		kernel[i + KERNEL_N] = dist(gen);
-	for (int i = 0; i < SEQUENCE_SIZE; ++i)
+	for (int i = 0; i < n; ++i)
 		input[i] = dist(gen);
-	convolution(input, SEQUENCE_SIZE, kernel, KERNEL_N, output);
-	// convolution2(input, SEQUENCE_SIZE, kernel, KERNEL_N, output);
-	const float sum = accumulate(output, output + SEQUENCE_SIZE, 0, [](float sum, float cur) {
+	convolution(input, n, kernel, KERNEL_N, output);
+	const float sum = accumulate(output, output + n, 0, [](float sum, float cur) {
 		return sum + cur;
 	});
-	cout << sum / SEQUENCE_SIZE << endl;
+	cout << static_cast<int>(sum / n) << endl;
 	return 0;
 }
