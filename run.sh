@@ -3,10 +3,12 @@
 sources="$2"
 inputFile="$3"
 CC="$4"
-std="-std=c++14"
 if [[ "$CC" == "g++" ]]; then
 	std="-std=c++11"
+	x="m"
 else
+	std="-std=c++14"
+	x="x"
 	ml icc
 fi
 # Since several script instances may ran simultaneously, each one should
@@ -46,9 +48,9 @@ done
 if [[ "$CC" == "g++" ]]; then
 	ml icc # we missed this earlier in this case
 fi
-echo "Testing -x optimization flags (for some supported CPU extensions) alongside -Ofast." >> $logFile
+echo "Testing -$x optimization flags (for some supported CPU extensions) alongside -Ofast." >> $logFile
 echo "Extension Result Time" >> $logFile
 for ext in ${cpuExts[@]}; do
-	icc $std -Ofast -x$ext -o $exeFile $sources # here only icc
+	$CC $std -Ofast -$x$ext -o $exeFile $sources # here can be g++ or icc
 	echo "$ext $(calcResAndTime)" >> $logFile
 done
