@@ -45,9 +45,6 @@ for flag in ${oFlags[@]}; do
 	echo "$flag $(calcResAndTime)" >> $logFile
 done
 
-if [[ "$CC" == "g++" ]]; then
-	ml icc # we missed this earlier in this case
-fi
 echo "Testing -$x optimization flags (for some supported CPU extensions) alongside -Ofast." >> $logFile
 echo "Extension Result Time" >> $logFile
 for ext in ${cpuExts[@]}; do
