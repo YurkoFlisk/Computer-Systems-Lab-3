@@ -4,10 +4,9 @@ ml icc
 sources="$2"
 inputFile="$3"
 CC="$4"
-if [ "$CC" = "g++" ]; then
+std="-std=c++14"
+if [[ "$CC" == "g++" ]]; then
 	std="-std=c++11"
-else
-	std="-std=c++14"
 fi
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
