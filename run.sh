@@ -1,10 +1,14 @@
 #!/bin/bash
 
 ml icc
-std="-std=c++14"
 sources="$2"
 inputFile="$3"
 CC="$4"
+if ["$CC" = "g++"]; then
+	std="-std=c++11"
+else
+	std="-std=c++14"
+fi
 # Since several script instances may ran simultaneously, each one should
 # have different output files. Each script instance, though, can (and will)
 # reuse its own names (e.g. each produced executable will have the same name given below).
