@@ -38,9 +38,9 @@ for flag in ${oFlags[@]}; do
 	$CC $std -$flag -o $exeFile $sources # here can be g++ or icc
 	echo "$flag $(calcResAndTime)" >> $logFile
 done
-echo "Testing -x optimization flags (for some supported CPU extensions) alongside -O1." >> $logFile
+echo "Testing -x optimization flags (for some supported CPU extensions) alongside -Ofast." >> $logFile
 echo "Extension Result Time" >> $logFile
 for ext in ${cpuExts[@]}; do
-	icc $std -O1 -x$ext -o $exeFile $sources # here only icc
+	icc $std -Ofast -x$ext -o $exeFile $sources # here only icc
 	echo "$ext $(calcResAndTime)" >> $logFile
 done
