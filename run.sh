@@ -4,7 +4,7 @@ ml icc
 sources="$2"
 inputFile="$3"
 CC="$4"
-if ["$CC" = "g++"]; then
+if [ "$CC" = "g++" ]; then
 	std="-std=c++11"
 else
 	std="-std=c++14"
