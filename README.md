@@ -5,6 +5,13 @@ which is compiled and tested with different compilation options on University's 
 Also contains custom testcase generator (testGenerator.cpp), which is pretty simple, but produces
 relatively adequate (not just "-1"-answer) tests
 
+Another program (convol.cpp) which better benefits from optimizations and SIMD extensions is also provided.
+It computes one-dimensional discrete convolution of pseudo-random generated input of given size and seed
+(for deterministic testing)
+
+"CS Lab 3 VS" folder contains VS projects for these individual programs and also for the one which was optimized with Intel Parallel Studio XE 2020 (OptimizationTest) and generator for it's input file
+(OptimizationFileGen)
+
 run.sh is a script used for time-testing different compilation parameters and generating reports.
 * 1st argument is the "index" of filenames used. E.g. log$1.txt is the output log file, where $1 is "index";
 * 2nd argument is the source file;
